@@ -11,24 +11,26 @@ jobs:
           repository: imaoreo/free-grind
           ref: refs/pull/238/head
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: 22
 
-      - name: Install pnpm (required by Xcode)
-        run: npm install -g pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
 
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: aarch64-apple-ios
 
-      - name: Install Dependencies
-        run: bun install
+      - name: Fix Lockfile & Install Dependencies
+        run: pnpm install --no-frozen-lockfile
 
       - name: Initialize Tauri iOS
-        run: bunx tauri ios init
+        run: pnpm tauri ios init
 
       - name: Build Unsigned App
         run: |
