@@ -11,10 +11,10 @@ jobs:
           repository: imaoreo/free-grind
           ref: refs/pull/238/head
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: 22
+          bun-version: latest
 
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -22,10 +22,10 @@ jobs:
           targets: aarch64-apple-ios
 
       - name: Install Dependencies
-        run: npm install --legacy-peer-deps
+        run: bun install
 
       - name: Initialize Tauri iOS
-        run: npx @tauri-apps/cli ios init --non-interactive || npx tauri ios init
+        run: bunx tauri ios init
 
       - name: Build Unsigned App
         run: |
