@@ -163,11 +163,11 @@ jobs:
           SCHEME=$(xcodebuild "${PROJECT_ARGS[@]}" -list \
             | awk '/Schemes:/ {flag=1; next} flag && NF {gsub(/^[[:space:]]+|[[:space:]]+$/, ""); print}')
 
-          IOS_SCHEME=$(printf '\%s\n' "$SCHEME" | grep -Ei '(^|_|-)ios$\vert{}_iOS$|iOS' | head -n 1 || true)
+          IOS_SCHEME=$(printf '%s\n' "$SCHEME" | grep -Ei '(^|_|-)ios$|_iOS$|iOS' | head -n 1 || true)
           if [ -n "$IOS_SCHEME" ]; then
             SCHEME="$IOS_SCHEME"
           else
-            SCHEME=$(printf '\%s\n' "$SCHEME" | head -n 1)
+            SCHEME=$(printf '%s\n' "$SCHEME" | head -n 1)
           fi
 
           if [ -z "$SCHEME" ]; then
